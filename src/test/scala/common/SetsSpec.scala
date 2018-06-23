@@ -26,7 +26,8 @@ class SetsSpec extends FlatSpec {
 
     assert((set1 ⋂ set2) == set1)
     assert((set1 \ set2) == ∅)
-    assert((set3 \ set2) == 2)
+    assert((set3 \ set2) == new Set(2))
+    assert((set3 \ set2) != 2)
     assert(2 ∈: (set3 \ set2))
 
     assertThrows[DuplicateElementsException] {

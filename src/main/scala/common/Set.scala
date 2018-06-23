@@ -55,7 +55,6 @@ case class Set[+A](private val elements: List[A]) {
         if (size != that.size) return false
         elements.forall(e => that.elements.contains(e))
       }
-      case that: A => size == 1 && elements.contains(that)
       case _ => false
     }
   }
