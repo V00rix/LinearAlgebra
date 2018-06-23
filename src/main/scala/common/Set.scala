@@ -36,10 +36,10 @@ case class Set[+A](private val elements: List[A]) {
   override def toString: String = {
     var arrayBuffer = ArrayBuffer[String]()
     foreach {
-      case set: Set[Any] => if (set.size < 1) arrayBuffer += "∅" else arrayBuffer += set.toString
+      case set: Set[Any] => arrayBuffer += set.toString
       case e => arrayBuffer += e.toString
     }
-    arrayBuffer.mkString("{", ", ", "}")
+    if (arrayBuffer.size < 1) "∅" else arrayBuffer.mkString("{", ", ", "}")
   }
 
   def pr(): Unit = {
@@ -77,6 +77,14 @@ case class Set[+A](private val elements: List[A]) {
 
   def ×[B, C >: A](that: Set[B]): CartesianProduct[C, B] = new Set[(C, B)](for (e <- elements;
                                                                                 e2 <- that.elements) yield (e, e2))
+
+  //
+  //  def ^(power: Int) = power match {
+  //    case p < 0 => throw OutOfDomainException()
+  //    case p == 0 =>
+  //    case p > 1 => this ^ (p - 1)
+  //    case
+  //  }
 }
 
 object Set {

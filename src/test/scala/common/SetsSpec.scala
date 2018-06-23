@@ -52,6 +52,9 @@ class SetsSpec extends FlatSpec {
     assert((C ∆ D) == ((C \ D) ⋃ (D \ C)))
 
     assert((C ∆ D) == new Set(1,3,6,7))
+
+    assert((C ∆ ∅) == C)
+    assert((C ∆ C) == ∅)
   }
 
   "cartesian" should "be awesome" in {
@@ -75,5 +78,10 @@ class SetsSpec extends FlatSpec {
 
     assert((A × B).size == A.size * B.size)
     assert((A × B × C).size == A.size * B.size * C.size)
+
+    (A × A × B).pr()
+
+    (A × ∅).pr()
+    (∅ × A).pr()
   }
 }

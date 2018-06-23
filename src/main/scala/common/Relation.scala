@@ -1,5 +1,7 @@
 package common
 
-//class Relation extends Set {
-//
-//}
+import types.CartesianProduct
+
+class Relation extends CartesianProduct {
+
+}
