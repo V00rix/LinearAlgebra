@@ -1,8 +1,8 @@
 package common.spaces
 
-import common.BaseSpec
+import common.SetsSpec
 
-class LinearSpaceSpec extends BaseSpec {
+class LinearSpaceSpec extends SetsSpec {
 
 //  var ls = new LinearSpace2[Int]()
   /*

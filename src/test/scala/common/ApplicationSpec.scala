@@ -2,7 +2,7 @@ package common
 
 import scala.collection.mutable.Stack
 
-class ApplicationSpec extends BaseSpec {
+class ApplicationSpec extends SetsSpec {
   "A Stack" should "pop values in last-in-first-out order" in {
     val stack = new Stack[Int]
     stack.push(1)
