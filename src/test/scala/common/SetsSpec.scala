@@ -5,6 +5,7 @@ import common.exceptions.DuplicateElementsException
 import org.scalatest.FlatSpec
 import types.CartesianProduct
 
+//noinspection ComparingUnrelatedTypes
 class SetsSpec extends FlatSpec {
   "sets" should "be awesome" in {
     val set1 = new Set(1, 3, 4)
@@ -29,6 +30,8 @@ class SetsSpec extends FlatSpec {
     assert((set3 \ set2) == new Set(2))
     assert((set3 \ set2) != 2)
     assert(2 ∈: (set3 \ set2))
+    assert(∅ ⊆ (set3 \ set2))
+    assert(∅ ⊆ ∅)
 
     assertThrows[DuplicateElementsException] {
       new Set(1, 1)
@@ -40,7 +43,7 @@ class SetsSpec extends FlatSpec {
     assert(∅ ∈: setOfEmpty)
     assert(new Set(1,3,4) ∈: setOfEmpty)
 
-    val setOfDifferent = new Set(new Set(1,3,4), new Set(1.4,1.3), new Set(∅, new Set(1,3)))
+    val setOfDifferent = new Set(new Set(1, 3, 4), new Set(1.4, 1.3, new Set(∅)), new Set(∅, new Set(1, 3)))
     setOfDifferent.pr()
 
     val A = set2
@@ -49,6 +52,8 @@ class SetsSpec extends FlatSpec {
 
     val C = new Set(1,3,5)
     val D = new Set(6,5,7)
+
+    new Set(∅).pr()
 
     assert((C ∆ D) == ((C \ D) ⋃ (D \ C)))
 
@@ -77,8 +82,8 @@ class SetsSpec extends FlatSpec {
     assert(((A ⋂ B) × (C ⋂ D)) == ((A × C) ⋂ (B × D)))
     assert(((A ⋃ B) × (C ⋃ D)) != ((A × C) ⋃ (B × D)))
 
-    assert((A × B).size == A.size * B.size)
-    assert((A × B × C).size == A.size * B.size * C.size)
+    assert((A × B).cardinality == A.cardinality * B.cardinality)
+    assert((A × B × C).cardinality == A.cardinality * B.cardinality * C.cardinality)
 
     (A × A × B).pr()
 

@@ -27,7 +27,6 @@ case class Set[+A](private val elements: List[A]) {
     })
   }
 
-
   def this(elements: A*) = this(elements.toList)
 
   def foreach(function: A => Any): Unit = elements.foreach(function)
@@ -49,27 +48,25 @@ case class Set[+A](private val elements: List[A]) {
     * Sets A and B are equal if and only if they have precisely the same elements.
     *
     */
-  override def equals(that: Any): Boolean = {
-    that match {
-      case that: Set[A] => that.isInstanceOf[Set[A]] && {
-        if (size != that.size) return false
-        elements.forall(e => that.elements.contains(e))
-      }
-      case _ => false
+  override def equals(that: Any): Boolean = that match {
+    case that: Set[A] => that.isInstanceOf[Set[A]] && {
+      if (cardinality != that.cardinality) return false
+      elements.forall(e => that.elements.contains(e))
     }
+    case _ => false
   }
 
-  def size: Int = elements.length
+  def cardinality: Int = elements.length
 
   def ⊆[B >: A](that: Set[B]): Boolean = elements.forall(e => that.elements.contains(e))
 
-  def ⋃[B >: A](that: Set[B]): Set[B] = new Set(that.elements.filter(e => !elements.contains(e)) ++ elements)
+  def \[B >: A](that: Set[B]): Set[B] = new Set(elements.filter(e => !that.elements.contains(e)))
 
   def ⋂[B >: A](that: Set[B]): Set[B] = new Set(elements.filter(e => that.elements.contains(e)))
 
   def ∆[B >: A](that: Set[B]): Set[B] = Set.from(((this \ that) ⋃ (that \ this)))
 
-  def \[B >: A](that: Set[B]): Set[B] = new Set(elements.filter(e => !that.elements.contains(e)))
+  def ⋃[B >: A](that: Set[B]): Set[B] = new Set(that.elements.filter(e => !elements.contains(e)) ++ elements)
 
   def ∈:[B >: A](element: B): Boolean = elements.contains(element)
 
@@ -88,9 +85,7 @@ case class Set[+A](private val elements: List[A]) {
 object Set {
   def empty[B: ClassTag]: Set[B] = ∅[B]
 
-  def from[B](that: Set[B]) = new Set[B](that.elements)
-
   def ∅[B: ClassTag] = new Set[B]()
 
-  def ∅ = new Set()
+  def from[B](that: Set[B]) = new Set[B](that.elements)
 }
