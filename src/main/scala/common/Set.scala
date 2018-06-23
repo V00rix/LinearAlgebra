@@ -14,10 +14,12 @@ import scala.reflect.ClassTag
   * @tparam A Type of objects
   */
 case class Set[+A](private val elements: List[A]) {
+  /**
+    * Sets should not contain duplicates
+    */
   {
     var arrayBuffer = ArrayBuffer[Any]()
 
-    // Check for duplicates
     foreach(e => arrayBuffer match {
       case x if x.contains(e) => throw DuplicateElementsException()
       case _ => arrayBuffer += e
@@ -44,9 +46,6 @@ case class Set[+A](private val elements: List[A]) {
     println(toString)
   }
 
-  def ×[B, C >: A](that: Set[B]): CartesianProduct[C, B] = new Set[(A, B)](for (e <- elements;
-                                                                                e2 <- that.elements) yield (e, e2))
-
   /**
     * Sets A and B are equal if and only if they have precisely the same elements.
     *
@@ -66,13 +65,16 @@ case class Set[+A](private val elements: List[A]) {
 
   def ⊆[B >: A](that: Set[B]): Boolean = elements.forall(e => that.elements.contains(e))
 
-  def ⋃[B >: A](that: Set[B])(implicit c: ClassTag[B]): Set[B] = new Set[B](that.elements.filter(e => !elements.contains(e)) ++ elements)
+  def ⋃[B >: A](that: Set[B]): Set[B] = new Set[B](that.elements.filter(e => !elements.contains(e)) ++ elements)
 
   def ⋂[B >: A](that: Set[B]): Set[B] = new Set[A](elements.filter(e => that.elements.contains(e)))
 
   def \[B >: A](that: Set[B]): Set[B] = new Set[A](elements.filter(e => !that.elements.contains(e)))
 
   def ∈:[B >: A](element: B): Boolean = elements.contains(element)
+
+  def ×[B, C >: A](that: Set[B]): CartesianProduct[C, B] = new Set[(A, B)](for (e <- elements;
+                                                                                e2 <- that.elements) yield (e, e2))
 }
 
 object Set {
