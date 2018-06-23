@@ -69,11 +69,13 @@ case class Set[+A](private val elements: List[A]) {
 
   def ⋂[B >: A](that: Set[B]): Set[B] = new Set[A](elements.filter(e => that.elements.contains(e)))
 
+  def ∆[B >: A](that: Set[B]): Set[B] = new Set[B]((this \ that) ⋃ (that \ this))
+
   def \[B >: A](that: Set[B]): Set[B] = new Set[A](elements.filter(e => !that.elements.contains(e)))
 
   def ∈:[B >: A](element: B): Boolean = elements.contains(element)
 
-  def ×[B, C >: A](that: Set[B]): CartesianProduct[C, B] = new Set[(A, B)](for (e <- elements;
+  def ×[B, C >: A](that: Set[B]): CartesianProduct[C, B] = new Set[(C, B)](for (e <- elements;
                                                                                 e2 <- that.elements) yield (e, e2))
 }
 

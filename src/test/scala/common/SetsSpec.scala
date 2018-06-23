@@ -41,6 +41,17 @@ class SetsSpec extends FlatSpec {
 
     val setOfDifferent = new Set(new Set(1,3,4), new Set(1.4,1.3), new Set(∅, new Set(1,3)))
     setOfDifferent.pr()
+
+    val A = set2
+    val B = set3
+    assert((A ⊆ B) && (A \ B == ∅))
+
+    val C = new Set(1,3,5)
+    val D = new Set(6,5,7)
+
+    assert((C ∆ D) == ((C \ D) ⋃ (D \ C)))
+
+    assert((C ∆ D) == new Set(1,3,6,7))
   }
 
   "cartesian" should "be awesome" in {
