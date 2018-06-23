@@ -1,9 +1,10 @@
-package common.sets
+package common
 
 /**
-  * Real numbers
+  * Real number
   */
-class Real(private val value: Double) {
+class Real(val value: Double) {
+
   def +(that: Real): Real = {
     new Real(this.value + that.value)
   }
