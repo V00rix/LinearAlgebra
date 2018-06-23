@@ -1,6 +1,7 @@
 package common
 
-import common.exceptions.DuplicateElementsException
+import common.Set.∅
+import common.exceptions.{DuplicateElementsException, OutOfDomainException}
 import types.CartesianProduct
 
 import scala.collection.mutable.ArrayBuffer
@@ -28,8 +29,6 @@ case class Set[+A](private val elements: List[A]) {
 
 
   def this(elements: A*) = this(elements.toList)
-
-  def this(set: Set[A]) = this(set.elements)
 
   def foreach(function: A => Any): Unit = elements.foreach(function)
 
@@ -65,30 +64,32 @@ case class Set[+A](private val elements: List[A]) {
 
   def ⊆[B >: A](that: Set[B]): Boolean = elements.forall(e => that.elements.contains(e))
 
-  def ⋃[B >: A](that: Set[B]): Set[B] = new Set[B](that.elements.filter(e => !elements.contains(e)) ++ elements)
+  def ⋃[B >: A](that: Set[B]): Set[B] = new Set(that.elements.filter(e => !elements.contains(e)) ++ elements)
 
-  def ⋂[B >: A](that: Set[B]): Set[B] = new Set[A](elements.filter(e => that.elements.contains(e)))
+  def ⋂[B >: A](that: Set[B]): Set[B] = new Set(elements.filter(e => that.elements.contains(e)))
 
-  def ∆[B >: A](that: Set[B]): Set[B] = new Set[B]((this \ that) ⋃ (that \ this))
+  def ∆[B >: A](that: Set[B]): Set[B] = Set.from(((this \ that) ⋃ (that \ this)))
 
-  def \[B >: A](that: Set[B]): Set[B] = new Set[A](elements.filter(e => !that.elements.contains(e)))
+  def \[B >: A](that: Set[B]): Set[B] = new Set(elements.filter(e => !that.elements.contains(e)))
 
   def ∈:[B >: A](element: B): Boolean = elements.contains(element)
 
-  def ×[B, C >: A](that: Set[B]): CartesianProduct[C, B] = new Set[(C, B)](for (e <- elements;
-                                                                                e2 <- that.elements) yield (e, e2))
+  def ×[B, C >: A](that: Set[B]): CartesianProduct[C, B] = new Set(for (e <- elements;
+                                                                        e2 <- that.elements) yield (e, e2))
 
-  //
-  //  def ^(power: Int) = power match {
-  //    case p < 0 => throw OutOfDomainException()
-  //    case p == 0 =>
-  //    case p > 1 => this ^ (p - 1)
-  //    case
-  //  }
+  def ^(power: Int): Set[Any] = power match {
+    case p if p == 0 => new Set(∅)
+    case p if p == 1 => this
+    case p if p == 2 => this × this
+    case p if p > 2 => this ^ (p - 1)
+    case _ => throw OutOfDomainException()
+  }
 }
 
 object Set {
   def empty[B: ClassTag]: Set[B] = ∅[B]
+
+  def from[B](that: Set[B]) = new Set[B](that.elements)
 
   def ∅[B: ClassTag] = new Set[B]()
 

@@ -83,5 +83,8 @@ class SetsSpec extends FlatSpec {
 
     (A × ∅).pr()
     (∅ × A).pr()
+
+    assert((A ^ 2) == (A × A))
+    (A ^ 2).pr()
   }
 }
