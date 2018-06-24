@@ -1,7 +1,7 @@
-package common
+package common.sets
 
-import common.Set.∅
 import common.exceptions.{DuplicateElementsException, OutOfDomainException}
+import common.sets.Set.∅
 import types.CartesianProduct
 
 import scala.collection.mutable.ArrayBuffer
@@ -14,7 +14,7 @@ import scala.reflect.ClassTag
   * @param elements Collection of distinct objects
   * @tparam A Type of objects
   */
-case class Set[+A](private val elements: List[A]) {
+class Set[+A](protected[sets] val elements: List[A]) {
   /**
     * Sets should not contain duplicates
     */
@@ -40,7 +40,7 @@ case class Set[+A](private val elements: List[A]) {
     if (arrayBuffer.size < 1) "∅" else arrayBuffer.mkString("{", ", ", "}")
   }
 
-  def pr(): Unit = {
+  def print(): Unit = {
     println(toString)
   }
 
@@ -61,6 +61,8 @@ case class Set[+A](private val elements: List[A]) {
   def ⊆[B >: A](that: Set[B]): Boolean = elements.forall(e => that.elements.contains(e))
 
   def \[B >: A](that: Set[B]): Set[B] = new Set(elements.filter(e => !that.elements.contains(e)))
+
+  def \[B >: A](that: B): Set[A] = new Set[A](elements.filter(e => e != that))
 
   def ⋂[B >: A](that: Set[B]): Set[B] = new Set(elements.filter(e => that.elements.contains(e)))
 
@@ -88,4 +90,18 @@ object Set {
   def ∅[B: ClassTag] = new Set[B]()
 
   def from[B](that: Set[B]) = new Set[B](that.elements)
+
+  /**
+    * Power set
+    */
+  def P[B](that: Set[B]): Set[Any] = {
+    that match {
+      case p if p == ∅ => that ⋃ new Set(∅)
+      case _ => {
+        var set = new Set[Any](that)
+        that.foreach(e => set = set ⋃ P(that \ e))
+        set
+      }
+    }
+  }
 }

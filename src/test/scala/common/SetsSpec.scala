@@ -1,7 +1,8 @@
 package common
 
-import common.Set.∅
 import common.exceptions.DuplicateElementsException
+import common.sets.Set
+import common.sets.Set._
 import org.scalatest.FlatSpec
 import types.CartesianProduct
 
@@ -44,7 +45,7 @@ class SetsSpec extends FlatSpec {
     assert(new Set(1,3,4) ∈: setOfEmpty)
 
     val setOfDifferent = new Set(new Set(1, 3, 4), new Set(1.4, 1.3, new Set(∅)), new Set(∅, new Set(1, 3)))
-    setOfDifferent.pr()
+    setOfDifferent.print()
 
     val A = set2
     val B = set3
@@ -53,7 +54,7 @@ class SetsSpec extends FlatSpec {
     val C = new Set(1,3,5)
     val D = new Set(6,5,7)
 
-    new Set(∅).pr()
+    new Set(∅).print()
 
     assert((C ∆ D) == ((C \ D) ⋃ (D \ C)))
 
@@ -65,7 +66,7 @@ class SetsSpec extends FlatSpec {
 
   "cartesian" should "be awesome" in {
     val cartesian = new Set(1, 2) × new Set(1, 2, 3)
-    cartesian.pr()
+    cartesian.print()
     assert(cartesian == new CartesianProduct((1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)))
     assert((new Set(1, 2) × new Set(1, 2, 3)) != (new Set(1, 2, 3) × new Set(1, 2)))
 
@@ -85,12 +86,29 @@ class SetsSpec extends FlatSpec {
     assert((A × B).cardinality == A.cardinality * B.cardinality)
     assert((A × B × C).cardinality == A.cardinality * B.cardinality * C.cardinality)
 
-    (A × A × B).pr()
+    (A × A × B).print()
 
-    (A × ∅).pr()
-    (∅ × A).pr()
+    (A × ∅).print()
+    (∅ × A).print()
 
     assert((A ^ 2) == (A × A))
-    (A ^ 2).pr()
+    (A ^ 2).print()
+  }
+
+  "power sets" should "be awesome" in {
+    val A = new Set(1, 3, 4)
+    val power = P(A)
+    power.print()
+    assert(A ∈: power)
+    assert(new Set(1, 3) ∈: power)
+    assert(new Set(1, 4) ∈: power)
+    assert(new Set(3, 4) ∈: power)
+    assert(∅ ∈: power)
+    assert(∅ ⊆ power)
+    assert(new Set(1) ∈: power)
+    assert(new Set(3) ∈: power)
+    assert(new Set(4) ∈: power)
+    assert(power.cardinality == Math.pow(2, (A.cardinality)))
+    println(Math.pow(2, (A.cardinality)).toInt)
   }
 }
