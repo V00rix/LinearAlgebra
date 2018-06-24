@@ -1,13 +1,13 @@
 package common
 
-import common.exceptions.DuplicateElementsException
 import common.sets.Set
 import common.sets.Set._
+import common.util.exceptions.DuplicateElementsException
 import org.scalatest.FlatSpec
 import types.CartesianProduct
 
 //noinspection ComparingUnrelatedTypes
-class SetsSpec extends FlatSpec {
+class SetSpec extends FlatSpec {
   "sets" should "be awesome" in {
     val set1 = new Set(1, 3, 4)
     val set2 = new Set(4, 3, 1)

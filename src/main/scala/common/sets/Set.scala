@@ -1,7 +1,7 @@
 package common.sets
 
-import common.exceptions.{DuplicateElementsException, OutOfDomainException}
 import common.sets.Set.∅
+import common.util.exceptions.{DuplicateElementsException, OutOfDomainException}
 import types.CartesianProduct
 
 import scala.collection.mutable.ArrayBuffer
@@ -18,14 +18,7 @@ class Set[+A](protected[sets] val elements: List[A]) {
   /**
     * Sets should not contain duplicates
     */
-  {
-    var arrayBuffer = ArrayBuffer[Any]()
-
-    foreach(e => arrayBuffer match {
-      case x if x.contains(e) => throw DuplicateElementsException()
-      case _ => arrayBuffer += e
-    })
-  }
+  if (elements.size != elements.distinct.size) throw DuplicateElementsException()
 
   def this(elements: A*) = this(elements.toList)
 
@@ -78,8 +71,7 @@ class Set[+A](protected[sets] val elements: List[A]) {
   def ^(power: Int): Set[Any] = power match {
     case p if p == 0 => new Set(∅)
     case p if p == 1 => this
-    case p if p == 2 => this × this
-    case p if p > 2 => this ^ (p - 1)
+    case p if p > 1 => this × (this ^ (p - 1))
     case _ => throw OutOfDomainException()
   }
 }
