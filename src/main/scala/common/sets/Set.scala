@@ -91,6 +91,12 @@ object Set {
 
   def from[B](that: Set[B]) = new Set[B](that.elements)
 
+  def ⋃(sets: Set[_]*): Set[_] = sets.reduce((a, b) => a ⋃ b)
+
+  def ⋂(sets: Set[_]*): Set[_] = sets.reduce((a, b) => a ⋂ b)
+
+  def ∏(sets: Set[_]*): Set[_] = sets.reduce((a, b) => a × b)
+
   /**
     * Power set
     */

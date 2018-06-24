@@ -33,6 +33,7 @@ class SetsSpec extends FlatSpec {
     assert(2 ∈: (set3 \ set2))
     assert(∅ ⊆ (set3 \ set2))
     assert(∅ ⊆ ∅)
+    assert((new Set(1, 2) ⋃ new Set(3, 4) ⋃ new Set(1, 4) ⋃ new Set(3, 7)) == new Set(1, 2, 3, 4, 7))
 
     assertThrows[DuplicateElementsException] {
       new Set(1, 1)
@@ -62,6 +63,11 @@ class SetsSpec extends FlatSpec {
 
     assert((C ∆ ∅) == C)
     assert((C ∆ C) == ∅)
+
+
+    assert(⋃(A, B, C, D) == (A ⋃ B ⋃ C ⋃ D))
+    ∏(new Set(1, 3, 4), new Set("uewq", "wqelqw")).print()
+    ⋃(new Set(1, 3, 4), new Set("uewq", "wqelqw")).print()
   }
 
   "cartesian" should "be awesome" in {
