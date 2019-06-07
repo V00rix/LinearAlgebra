@@ -44,9 +44,9 @@ class Relation[+A, +B](protected[relations] val domain: Set[A],
   def inverse(): Relation[B, A] = new Relation(codomain, domain, new CartesianProduct(this.elements.map(x => (x._2, x._1))))
 
   // TODO
-  def matrix(): Matrix[Int] = {
-    new Matrix()
-  }
+//  def matrix(): Matrix[Int] = {
+//    new Matrix()
+//  }
 }
 
 object Relation {

@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/IdeaProjects/.idea/modules/ideaprojects.iml" filepath="$USER_HOME$/IdeaProjects/.idea/modules/ideaprojects.iml" />
+      <module fileurl="file://$USER_HOME$/IdeaProjects/.idea/modules/ideaprojects-build.iml" filepath="$USER_HOME$/IdeaProjects/.idea/modules/ideaprojects-build.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/linearalgebra.iml" filepath="$PROJECT_DIR$/.idea/modules/linearalgebra.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/linearalgebra-build.iml" filepath="$PROJECT_DIR$/.idea/modules/linearalgebra-build.iml" />
     </modules>
