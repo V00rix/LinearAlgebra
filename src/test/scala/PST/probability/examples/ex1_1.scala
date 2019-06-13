@@ -1,10 +1,10 @@
-package PST.probability
+package PST.probability.examples
 
 import org.scalatest.FlatSpec
 
 import scala.util.Random
 
-class FirstExample extends FlatSpec {
+class ex1_1 extends FlatSpec {
   private def printArr[T](array: Array[T]): Unit = array.foreach(println)
 
   "Monty Hall Problem" should "work" in {
@@ -67,7 +67,7 @@ class FirstExample extends FlatSpec {
     */
   "player" should "choose the highest probability of win" in {
     //    val hasGuessed = probability.in(true, false, false)
-
+//    val field =
     // then opens other door
     // always opens "false" door, thus, we have
     //    val newProbability = probability.in(true, false)
